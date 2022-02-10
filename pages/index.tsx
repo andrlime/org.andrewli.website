@@ -32,7 +32,7 @@ type GridState = {
   loaded: boolean
 }
 
-const icon = (<link rel="icon" href="/favicon.png" />);
+//const icon = (<link rel="icon" href="/favicon.png" />);
 
 class Grid extends Component<{}, GridState> {
   constructor(props: {}) {
@@ -59,7 +59,7 @@ class Grid extends Component<{}, GridState> {
           <span>{i.desc}</span><br/>
           <a href={i.url}>More...</a>
         </div>
-      )) : <p>Loading</p>}
+      )) : <p>Loading...</p>}
     </div>);
   }
 }
@@ -67,8 +67,9 @@ class Grid extends Component<{}, GridState> {
 const HomePage: FunctionComponent<HomeProps> = ({nav}) => (
   <div className={styles.wrapper}>
     <main>
-      <div className={styles.head}><h1>Hey! I&apos;m&nbsp;
-        <div id="name">Andrew Li<div className={styles.underline}></div></div>&nbsp;
+      <div className={styles.head}><h1>
+        <span>Hey! I&apos;m&nbsp;</span>
+        <div className={styles.name}>Andrew Li<div className={styles.underline}></div></div>&nbsp;
         <span className={styles.emoji}>👋</span>
       </h1></div>
       <section className={styles.bio} id="bio"><p>I have a diverse range of interests, all of which involve human computer interaction, or how we interact with the technology around us. On this website, you can learn more about who I am and the things that I do.</p></section>
@@ -151,7 +152,7 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Andrew Li - Homepage</title>
+        <title>Andrew Li</title>
         <meta name="description" content="Andrew Li is a software engineering student studying human computer interaction." />
       </Head>
 

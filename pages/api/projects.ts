@@ -23,14 +23,12 @@ export default function handler(
         maxRecords: 100,
         view: "Grid view"
     }).eachPage(function page(records: any, fetchNextPage: Function) {
-        console.log(records);
         records.forEach(function (record: any) {
             arr.push(record.fields);
         });
         fetchNextPage();
     }, function done(err: Error) {
         if(err) console.log(err);
-        console.log(arr);
         res.status(200).json(arr);
     });
 }
