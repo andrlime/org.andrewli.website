@@ -14,9 +14,9 @@ export default function handler(
   let Airtable = require('airtable');
     Airtable.configure({
         endpointUrl: 'https://api.airtable.com',
-        apiKey: '***REMOVED***'
+        apiKey: process.env.AIRTABLE_API
     });
-    let base = Airtable.base('***REMOVED***');
+    let base = Airtable.base(process.env.AIRTABLE_BASE);
     let arr: Array<Data> = [];
 
     base('csprojects').select({
