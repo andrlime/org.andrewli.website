@@ -1,58 +1,33 @@
 /* eslint-disable @next/next/no-img-element */
 import type { NextPage } from 'next';
-import React, { Component, FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import Head from 'next/head';
 import styles from '../styles/Q.module.css';
 import axios from 'axios';
 
-type NavItem = {
-  target: string,
-  emoji: string,
-  text: string,
-  content?: any
-}
+type NavItem = { target: string, emoji: string, text: string, content: any, key?: number };
+type Project = { url: string, img: string, title: string, desc: string };
+type HomeProps = { items: Array<NavItem> };
+type Contact = { link: string, title: string, value: string };
 
-type HomeProps = {
-  nav: Array<NavItem>
-}
+const Grid: FunctionComponent = () => {
+  const [loaded, setLoaded] = useState(false);
+  const [items, setItems] = useState<Array<Project>>([]);
 
-type NavState = {
-  shown: boolean
-}
-
-type GridItem = {
-  url: string,
-  img: string,
-  title: string,
-  desc: string,
-}
-
-type GridState = {
-  items: Array<GridItem>,
-  loaded: boolean
-}
-
-//const icon = (<link rel="icon" href="/favicon.png" />);
-
-class Grid extends Component<{}, GridState> {
-  constructor(props: {}) {
-    super(props);
-    this.state = {items: [], loaded: false}
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     axios
       .get("/api/projects")
       .then((res) => {
         if(res.data != null) {
-          this.setState({items: res.data, loaded: true});
+          setLoaded(true);
+          setItems(res.data);
         }
       });
-  }
+  }, []);
 
-  render() {
-    return (<div className={styles.grid}>
-      {this.state.loaded ? this.state.items.map((i, index) => (
+  return (
+    <div className={styles.grid}>
+      {loaded ? items.map((i, index) => (
         <div key={index} className={styles.item}>
           <img src={i.img} alt={i.desc}/>
           <b>{i.title}</b><br/>
@@ -60,11 +35,11 @@ class Grid extends Component<{}, GridState> {
           <a href={i.url}>More...</a>
         </div>
       )) : <p>Loading...</p>}
-    </div>);
-  }
-}
+    </div>
+  );
+};
 
-const HomePage: FunctionComponent<HomeProps> = ({nav}) => (
+const HomePage: FunctionComponent<HomeProps> = ({items}) => (
   <div className={styles.wrapper}>
     <main>
       <div className={styles.head}><h1>
@@ -75,14 +50,14 @@ const HomePage: FunctionComponent<HomeProps> = ({nav}) => (
       <section className={styles.bio} id="bio"><p>I have a diverse range of interests, all of which involve human computer interaction, or how we interact with the technology around us. On this website, you can learn more about who I am and the things that I do.</p></section>
       <section className={styles.contents} id="contents">
         <div className={styles.inline_navlist}>
-          {nav.map((i: NavItem, index: number) => (
-            <div className={styles.item} key={index}><a href={i.target}><span className={styles.emoji}>{i.emoji}</span> <span>{i.text}</span></a></div>
+          {items.map((i: NavItem, index: number) => (
+            <Navigator item={i} key={index}/>
           ))}
         </div>
         <hr/>
       </section>
 
-      {nav.map((i: NavItem, index: number) => (
+      {items.map((i: NavItem, index: number) => (
         <section key={index} id={i.target.substring(1)}>
           <h3>{i.emoji}&nbsp;{i.text}</h3>
           {i.content}
@@ -92,40 +67,31 @@ const HomePage: FunctionComponent<HomeProps> = ({nav}) => (
   </div>
 );
 
-const Footer: FunctionComponent = () => {
+const NavBar: FunctionComponent<HomeProps> = ({items}) => {
+  const [shown, setShown] = useState(false);
+
   return (
-    <div className={styles.footer}>
-      <span>Powered by <b>Next</b></span>
-      <span>Written in <b>TypeScript</b></span>
-      <span>Hosted on <b>DigitalOcean</b></span>
-    </div>  
+    <div className={styles.nav}><div className={shown ? styles.patty : styles.hamburger} onClick={() => setShown(!shown)}>
+      <span></span>
+      <span></span>
+      <span></span>
+
+      {shown ? (<div className={styles.navlist}>
+        {items.map((i: NavItem, index: number) => (
+          <Navigator item={i} key={index}/>
+        ))}
+      </div>) : (<></>)}
+    </div></div>
   );
-}
+};
 
-class NavBar extends Component<HomeProps, NavState> {
-  constructor(props: HomeProps) {
-    super(props);
-    this.state = {
-      shown: false
-    };
-  }
-  
-  render() {
-    return (
-      <div className={styles.nav}><div className={this.state.shown ? styles.patty : styles.hamburger} onClick={(event) => this.setState({shown: !this.state.shown})}>
-        <span></span>
-        <span></span>
-        <span></span>
+const Navigator: FunctionComponent<{item: NavItem, key: number}> = ({item, key}) => (
+  <div className={styles.item} key={key}><a href={item.target}><span className={styles.emoji}>{item.emoji}</span> <span>{item.text}</span></a></div>
+);
 
-        {this.state.shown ? (<div className={styles.navlist}>
-          {this.props.nav.map((i: NavItem, index: number) => (
-            <div className={styles.item} key={index}><a href={i.target}><b className={styles.emoji}>{i.emoji}</b> {i.text}</a></div>
-          ))}
-        </div>) : (<></>)}
-      </div></div>
-    );
-  }
-}
+const ContactCard: FunctionComponent<Contact> = ({link, title, value}) => (
+  <p><a href={link}><b>{title}</b> - {value}</a></p>
+);
 
 const Home: NextPage = () => {
   let content = [
@@ -143,9 +109,9 @@ const Home: NextPage = () => {
       <p>One of my goals is to take a picture of the Welcome To sign on the border of every state in the US except Alaska and Hawaii, combined with an album of photos from each state. However, I haven&apos;t started this project yet, so this section is empty for now...</p>
     </>)},
     {text: "Contact Me", emoji: "✉️", target: "#contact", content: (<>
-      <p><a href="mailto:andrewli06@icloud.com"><b>Email</b> - andrewli06@icloud.com</a></p>
-      <p><a href="https://github.com/andrewli06"><b>GitHub</b> - @andrewli06</a></p>
-      <p><a href="https://www.linkedin.com/in/andrew-li-41778a223/"><b>LinkedIn</b> - Andrew Li</a></p>
+      <ContactCard link="mailto:andrewli06@icloud.com" title="Email" value="andrewli06@icloud.com"/>
+      <ContactCard link="https://github.com/andrewli06" title="GitHub" value="@andrewli06"/>
+      <ContactCard link="https://www.linkedin.com/in/andrew-li-41778a223/" title="LinkedIn" value="Andrew Li"/>
     </>)}
   ];
 
@@ -156,11 +122,16 @@ const Home: NextPage = () => {
         <meta name="description" content="Andrew Li is a software engineering student studying human computer interaction." />
       </Head>
 
-      <NavBar nav={content}/>
-      <HomePage nav={content}/>
-      <Footer/>
+      <NavBar items={content}/>
+      <HomePage items={content}/>
+      
+      <div className={styles.footer}>
+        <span>Powered by <b>Next</b></span>
+        <span>Written in <b>TypeScript</b></span>
+        <span>Hosted on <b>DigitalOcean</b></span>
+      </div>  
     </div>
   );
-}
+};
 
 export default Home;

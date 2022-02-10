@@ -8,6 +8,7 @@ $white: #F6F8FF;
     width: 100%;
     height: 100%;
     padding: 1rem;
+    margin: 1rem;
     justify-content: center;
     align-content: center;
     align-items: center;
@@ -274,13 +275,24 @@ $white: #F6F8FF;
     z-index: 10;
 }
 
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+}
+
 .footer {
     color: $blue;
-    padding: 1rem;
+    padding: 1.2rem;
+    width: 100vw;
     background-color: #E5E7EE;
     display: flex;
     justify-content: space-around;
     align-items: center;
+
+    * {
+        text-align: center;
+    }
 }
 
 .grid {
