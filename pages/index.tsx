@@ -72,9 +72,11 @@ const NavBar: FunctionComponent<HomeProps> = ({items}) => {
 
   return (
     <div className={styles.nav}><div className={shown ? styles.patty : styles.hamburger} onClick={() => setShown(!shown)}>
-      <span></span>
-      <span></span>
-      <span></span>
+      <div className={styles.bm}>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
 
       {shown ? (<div className={styles.navlist}>
         {items.map((i: NavItem, index: number) => (

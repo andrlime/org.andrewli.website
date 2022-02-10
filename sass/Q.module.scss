@@ -137,6 +137,7 @@ $white: #F6F8FF;
     margin: 0;
     display: flex;
     flex-direction: column;
+    width: 100%;
 
     .emoji {
         font-size: 1.1rem;
@@ -156,7 +157,7 @@ $white: #F6F8FF;
     .item:hover {
         background-color: #264D98;
         color: #F6F8FF;
-        font-weight: 900;
+        font-weight: 800;
         transition: 300ms ease-in-out;
     }
 }
@@ -198,15 +199,17 @@ $white: #F6F8FF;
     padding: 1rem;
     border-radius: 1rem;
 
-    span {
-        display: block;
-        width: 2.2rem;
-        height: 0.4rem;
-        margin-bottom: 0.35rem;
-        transition: 500ms all;
-        background: $blue;
-        border-radius: 3px;
-        z-index: 10;
+    .bm {
+        span {
+            display: block;
+            width: 2.2rem;
+            height: 0.4rem;
+            margin-bottom: 0.35rem;
+            transition: 500ms all;
+            background: $blue;
+            border-radius: 3px;
+            z-index: 10;
+        }
     }
 
     .navlist {
@@ -233,30 +236,33 @@ $white: #F6F8FF;
     padding: 1rem;
     border-radius: 1rem;
 
-    span {
-        display: block;
-        width: 2.2rem;
-        height: 0.3rem;
-        margin-bottom: 0.3rem;
-        position: relative;
-        transition: 500ms all;
-        background: $black;
-        border-radius: 3px;
-        z-index: 1;
-    }
-
-    span:nth-child(1) {
-        transform: translateY(0.6rem) rotate(45deg);
-    }
-
-    span:nth-child(2) {
-        background-color: $white;
-        z-index: -10;
+    .bm {
+        span {
+            display: block;
+            width: 2.2rem;
+            height: 0.3rem;
+            margin-bottom: 0.3rem;
+            position: relative;
+            transition: 500ms all;
+            background: $black;
+            border-radius: 3px;
+            z-index: 1;
+        }
+    
+        span:nth-child(1) {
+            transform: translateY(0.6rem) rotate(45deg);
+        }
+    
+        span:nth-child(2) {
+            background-color: $white;
+            z-index: -10;
+        }
+        
+        span:nth-child(3) {
+            transform: translateY(-0.6rem) rotate(-45deg);
+        }
     }
     
-    span:nth-child(3) {
-        transform: translateY(-0.6rem) rotate(-45deg);
-    }
     
     .navlist {
         opacity: 100%;
@@ -318,6 +324,7 @@ $white: #F6F8FF;
         img {
             width: 100%;
             border-radius: 1rem;
+            margin-bottom: 1rem;
         }
 
         b {
@@ -338,5 +345,21 @@ $white: #F6F8FF;
             bottom: 0;
             right: 0;
         }
+    }
+}
+
+.four {
+    width: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    transform: translateY(-50%);
+    position: absolute;
+    top: 50%;
+
+    span {
+        font-weight: 900;
+        color: $blue;
+        font-size: 5rem;
     }
 }
