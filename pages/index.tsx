@@ -111,6 +111,7 @@ const Home: NextPage = () => {
       <p>One of my goals is to take a picture of the Welcome To sign on the border of every state in the US except Alaska and Hawaii, combined with an album of photos from each state. However, I haven&apos;t started this project yet, so this section is empty for now...</p>
     </>)},
     {text: "Contact Me", emoji: "✉️", target: "#contact", content: (<>
+      <p>I hate economic inequality and for that reason I love making lots of money off of rich people and corporate greed. If you are an educator or education company and want to use me for your PR-related stunts (such as taking advantage of my college admissions results), you are required to pay at least $200 per hour plus $10 per message sent plus $500 per article published plus $5 per minute of phone call or video call conversation. Higher offers get priority. I know you can afford it. Specific terms are available upon request. If you are a normal person, you can contact me using the following methods:</p>
       <ContactCard link="mailto:andrewli06@icloud.com" title="Email" value="andrewli06@icloud.com"/>
       <ContactCard link="https://github.com/andrewli06" title="GitHub" value="@andrewli06"/>
       <ContactCard link="https://www.linkedin.com/in/andrew-li-41778a223/" title="LinkedIn" value="Andrew Li"/>
